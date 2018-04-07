@@ -1,0 +1,9 @@
+__author__ = "Joseph Tompkins"
+__copyright__ = "Copyright 2018, Joseph Tompkins"
+__credits__ = ["Joseph Tompkins"]
+__license__ = "MIT"
+__version__ = "1.0.0"
+__maintainer__ = "Joseph Tompkins"
+__email__ = "joseph.tompkins@gmail.com"
+__status__ = "Development"
+__all__ = ["events"]
