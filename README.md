@@ -4,12 +4,12 @@ A multiprocessing Python event API.
 ## Requirements
 Python 3.5.x +
 
-##Usage
+## Usage
 Below are the basic steps for using the event API in your own scripts.
 
 An example script is also included in the repository files.
 
-###Steps for proper usage:
+### Steps for proper usage:
 - Write your own event classes which inherit from `Event`.
   - IMPORTANT: _These must be pickable classes._
 - Write your event dispatcher class, inheriting from the `EventDispatcher` interface.
