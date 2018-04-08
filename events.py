@@ -85,7 +85,7 @@ class EventDispatcher:
 
     def end(self):
         """Terminate the dispatcher process."""
-        self.__child_conn.send('terminate')
+        self.__parent_conn.send('terminate')
         self.process.terminate()
         while self.process.is_alive():
             continue
@@ -98,7 +98,8 @@ class EventDispatcher:
             if event_type in self.listeners:
                 if not issubclass(type(listener), EventListener):
                     raise TypeError(str(listener) + ' is not of type ' + str(EventListener))
-                self.listeners[event_type].add(listener)
+                if listener not in self.listeners[event_type]:
+                    self.listeners[event_type].add(listener)
 
     def dispatch(self):
         """
@@ -189,6 +190,7 @@ class EventDispatchManager:
 
     def __init__(self, *registrees):
         self.__dispatchers = dict()
+        self.__dispatchers_set = set()
         dispatchers = tuple([dispatcher for dispatcher in registrees if issubclass(type(dispatcher), EventDispatcher)])
         listeners = tuple([listener for listener in registrees if issubclass(type(listener), EventListener)])
         self.register_dispatcher(*dispatchers)
@@ -207,7 +209,7 @@ class EventDispatchManager:
         \t\tyet deployed will be deployed.
         """
         if event_type is None:
-            for dispatcher in self.__dispatchers.values():
+            for dispatcher in self.__dispatchers_set:
                 if dispatcher.is_deployed:
                     dispatcher.dispatch()
         else:
@@ -234,6 +236,7 @@ class EventDispatchManager:
                 raise TypeError('Type {} is not subclass of type {}'.format(type(dispatcher), EventDispatcher))
             for event_type in dispatcher.event_types:
                 self.__dispatchers[event_type] = dispatcher
+            self.__dispatchers_set.add(dispatcher)
 
     def register_listener(self, *listeners):
         """
