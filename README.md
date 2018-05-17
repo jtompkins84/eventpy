@@ -1,5 +1,5 @@
 # EventPy
-A multiprocessing Python event API.
+A multiprocessing Python application layer event API.
 
 ## Requirements
 Python 3.5.x +
